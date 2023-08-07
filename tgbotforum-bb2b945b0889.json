@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "tgbotforum",
+  "private_key_id": "bb2b945b088946c3d8587e54f9335b3553dd9369",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQC5zL4aXo6PXXjV\n5b4OzPREl0zR/UnWxmS+0WrXNcU3Hg9+T1yHq4ZZEgGkqfKumcpRGg83oZdYEPUg\nanu4GzdpEb0TScRoQelHWNdWjc38IPK5glVpvur5otVTG1XOovYsF8Hhu9INwHx3\nEIF0/8UOpiT1Rz6w/kdvN+Akn/5RcEl4sIGSUVW2JmOPVNoIkW24a6/eAV+GTNLI\nyzmZbVlNoh2/i49SYPkyggpzf4JyI5msyRe3geE3PahdEnXOOJUAmqbrc9Wjlj/V\n6wyvXBmwRgw+z6NSaMANqz3kwwpTls2+moj11PxL29g8QGC0tM5x3vYZNQSFtSAS\nMLeejvxVAgMBAAECggEABRqzAVnZVCriHaVpnnyKE+qV5tqKrRBB5L7rNS98R0j+\nGHAzxdsNopMf9qG9zXX0Vm2Ueter2jjyGwQKaIkq4Dsajo1lSBeOH+n0d7Sgu0kK\ntCj4orvm0FTt1QmepH2WV6lLBdU/zEem1MVXreveW/1/5MIRZzQdIFjmDkDb55Qz\niuhDiOs8tjzABz+xUeY1/HHKhmrhVgeY7ejs4OkWT8t6QI1vSYUXhq6swDAanOy7\n0d9q1+t3CyF7I0BO5J+gKTdzOyTz5t4m9BxgEJxJCUqGFxxuVjjxM1gVIXqdshKC\nDvDcTB5OFrJYtI0+qDtj7xZOd9jQ4WX9kTR1AZwEwwKBgQD4r6bPC5FZeZgUJ9sK\n1fxCzzq9VvtWnZrE2thjhtiP3vVtYY+pxqc7lvfoz8o/URYwVdZx0WDLx9sgWaZX\nsY1SqUDHepxhZlVp4MUtLkuUB+ccrmKsoVVb3x8BEX29I3suXYHaVG2aGBz1lHjZ\n7jKQrt2YOvm336zABdU0p7j07wKBgQC/Q585ytG+tLlw0FTs7iSqc003+vVKqi4g\n9TwsdzUw0dyYSSLnFUkycnYaFcq7g/6Pi23LdbDFGXd4eO3wPgwddNWkBDeP1I6r\n0rXtWvSsz2XL8Oz0V73075bgeFz/lo7+ieuvBuDaktEoAC9NsLRfQnsIqB39ldPR\nYxCjdrKK+wKBgQDRUjAq2AbI9FMwq/dwYHtL1NgRZPR7jH8oMTiwVWFVgAq+vb7J\n3Z8HxmP3P2dx8hOmLaop9V3vSNLFoRAlghp9OF+BSE/2n8dHLl1pUS1mdVxvxMzj\nl4ycnuqe4JUgrYvSk/xnxGbYrHE7uHQco6VGKRn2N7XXslra6k3yWzaQWwKBgQC3\n+5J1A1bT/gDMNnsbFtGKbTOAgBXo5t9MsNpbY6h098sdamz6oQ0yS8yztva3fncn\nGdZZ+zI5xw+XgaxQhz8cLsE77xqLbsp3GlAKrI3klfS0Q2OMf8KolLgr4VyEOA4B\naCagzRsK5mPv+I2ITEyVvdugLif7QV7qckMVGx8QdQKBgQDunjyt0ndFIInT+VDZ\nOuAg2qDVy529Uh6YUEHh3hbtfQR4lneBWuyegVzjUVtlm41ICtPkM/UUd4ed+rzU\nVkObaXzrQF/vPAMGFecqE3agAumxowiuksyHJ7aOmFhqp07PIEPd2aO902sr+6iu\nFVhZMHbE47BqGku/A4pEGSxqRg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "tgbotforum@tgbotforum.iam.gserviceaccount.com",
+  "client_id": "112064256845642676295",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/tgbotforum%40tgbotforum.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
