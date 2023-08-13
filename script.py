@@ -24,6 +24,12 @@ selected_expert = None
 # Глобальная переменная для хранения текущего режима
 current_mode = "experts"
 
+name_input_allowed = False
+
+selected_slot = None
+
+succes_booking = False
+
 # Обработка команды /start
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -55,7 +61,7 @@ def handle_expert_selection(call):
 
     keyboard = telebot.types.InlineKeyboardMarkup()
     for slot, status in slots:
-        button_text = f"{slot} - {'занято' if status == 'TRUE' else 'свободно'}"
+        button_text = f"{slot}"
         if status == 'FALSE':
             keyboard.add(telebot.types.InlineKeyboardButton(text=button_text, callback_data=f"slot_{slot}"))
 
@@ -70,45 +76,92 @@ def handle_expert_selection(call):
 
 @bot.callback_query_handler(func=lambda call: call.data.startswith('slot_'))
 def handle_slot_selection(call):
+    global name_input_allowed
+    global selected_slot
     expert_name = call.message.reply_markup.keyboard[0][0].callback_data.split('_')[1]
-    slot = call.data.split('_')[1]
-
-    print(f"Data for {expert_name}: {slot}")
-
-    bot.send_message(call.message.chat.id, f"Введите ваше имя")
-    bot.register_next_step_handler(call.message, handle_name_input, expert_name, slot, call)
-
-def handle_name_input(message, expert_name, slot, call):
-    user_name = message.text
+    selected_slot = call.data.split('_')[1]
 
     data = sheet.get_all_values()
 
-    # Изменяем статус слота в таблице
-    data = sheet.get_all_values()
+    print(f"Data for {selected_expert}: {selected_slot}")
+
     for row in data:
-        if row[0] == selected_expert and row[1] == slot:
-            row[2] = 'TRUE'
-            sheet.update_cell(data.index(row) + 1, 3, 'TRUE')
-            sheet.update_cell(data.index(row) + 1, len(row), user_name)
+        if row[0] == selected_expert and row[1] == selected_slot:
+            print(f"Data for  {selected_expert} {row[3]}: {selected_slot}")
+            if row[3]:
+                bot.send_message(call.message.chat.id, "Этот слот уже заянят :( Выберите другой.")
+                keyboard = telebot.types.InlineKeyboardMarkup()
+                for row in call.message.reply_markup.keyboard:
+                    for button in row:
+                        if button.callback_data == call.data:
+                            continue
+                        keyboard.add(button)
+
+                bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id=call.message.message_id, reply_markup=keyboard)
+                return
+            
+            name_input_allowed = True
+            bot.send_message(call.message.chat.id, f"Введите ваше ФИО")
+            bot.register_next_step_handler(call.message, handle_name_input, expert_name, selected_slot, call)
             break
 
-          # Удаляем нажатую кнопку
-    
-    keyboard = telebot.types.InlineKeyboardMarkup()
-    for row in call.message.reply_markup.keyboard:
-        for button in row:
-            if button.callback_data == call.data:
-                continue
-            keyboard.add(button)
 
-    bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id=call.message.message_id, reply_markup=keyboard)     
-    bot.send_message(message.chat.id, f"Вы успешно записались к {selected_expert} на время {slot}.")
+def handle_name_input(message, expert_name, slot, call):
+    global name_input_allowed
+    global selected_slot, succes_booking
+    user_name = message.text
+    user_username = call.from_user.username
+    user_info = f"{user_name} тг - @{user_username}"
+
+    if name_input_allowed:
+
+        # Изменяем статус слота в таблице
+        data = sheet.get_all_values()
+        for row in data:
+            if row[0] == selected_expert and row[1] == selected_slot:
+                if row[3]:
+                    bot.send_message(call.message.chat.id, "Этот слот уже заянят :( Выберите другой.")
+                    keyboard = telebot.types.InlineKeyboardMarkup()
+                    for row in call.message.reply_markup.keyboard:
+                        for button in row:
+                            if button.callback_data == call.data:
+                                continue
+                            keyboard.add(button)
+
+                    bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id=call.message.message_id, reply_markup=keyboard)
+                    return
+                else:
+                    print(f"Data2 for {slot}: {selected_slot}")
+                    if(slot == selected_slot):
+                        row[2] = 'TRUE'
+                        sheet.update_cell(data.index(row) + 1, 3, 'TRUE')
+                        sheet.update_cell(data.index(row) + 1, len(row), user_info)
+                        break
+
+            # Удаляем нажатую кнопку
+        
+        keyboard = telebot.types.InlineKeyboardMarkup()
+        for row in call.message.reply_markup.keyboard:
+            for button in row:
+                if button.callback_data == call.data:
+                    continue
+                keyboard.add(button)
+        
+        if selected_slot == slot:
+            bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id=call.message.message_id, reply_markup=keyboard)     
+            bot.send_message(message.chat.id, f"Вы успешно записались к {selected_expert} на - {selected_slot}.")
+            selected_slot = None
+
+    else:
+        bot.send_message(message.chat.id, f"Сначала выберите слот и эксперта.")
 
 @bot.callback_query_handler(func=lambda call: call.data == 'back')
 def handle_back_button(call):
     global current_mode
+    global name_input_allowed
     if current_mode == "slots":
         current_mode = "experts"
+        name_input_allowed = False
 
         # Получаем список уникальных ФИО из таблицы
         experts = list(set(sheet.col_values(1)[1:]))
@@ -122,6 +175,13 @@ def handle_back_button(call):
     else:
         # Код для обработки других случаев, если необходимо
         pass
+
+@bot.message_handler(func=lambda message: True)
+def handle_message(message):
+    if message.text == "/start":
+        start(message)
+    else:
+        bot.send_message(message.chat.id, "Введите команду /start для начала работы с ботом")
 
 
 if __name__ == "__main__":
